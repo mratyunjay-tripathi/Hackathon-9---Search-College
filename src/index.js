@@ -11,7 +11,7 @@ const { connection } = require('./connector');
 
 app.get("/findcolleges", async (req,res)=>{
 let {name,state,city,
-    minPackage,maxFees,course,exams}=req.query;
+    minPackage,maxFees,course,exam}=req.query;
 
     console.log(req.query,name,state);
 
@@ -29,8 +29,8 @@ let {name,state,city,
     if(course==undefined){
         course="";
     }
-    if(exams==undefined){
-        exams="";
+    if(exam==undefined){
+        exam="";
     }
     
 
@@ -50,13 +50,13 @@ let {name,state,city,
 
 
     console.log(connection,name,state,city,
-        minPackage,maxFees,exams,course);
+        minPackage,maxFees,exam,course);
 
     const records=await connection.find({
     name:{$regex:name,$options:"$i"},
     city:{$regex:city,$options:"$i"},
     state:{$regex:state,$options:"$i"},
-    exam:{$regex:exams,$options:"$i"},
+    exam:{$regex:exam,$options:"$i"},
     course:{$regex:course,$options:"$i"},
     maxFees:{$lte:maxFees},
     minPackage:{$gte:minPackage}});
