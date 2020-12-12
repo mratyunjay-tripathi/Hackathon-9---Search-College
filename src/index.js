@@ -9,19 +9,48 @@ app.use(express.json());
 const { connection } = require('./connector');
 
 
-app.get("/findColleges", async (req,res)=>{
+app.get("/findcolleges", async (req,res)=>{
 let {name,state,city,
     minPackage,maxFees,course,exams}=req.query;
 
     console.log(req.query,name,state);
 
-    if(minPackage<=0){
+    
+    if(name==undefined){
+        name="";
+    }
+    if(state==undefined){
+        state="";
+    }
+    
+    if(city==undefined){
+        city="";
+    }
+    if(course==undefined){
+        course="";
+    }
+    if(exams==undefined){
+        exams="";
+    }
+    
+
+    if(Number(minPackage)<=0 
+        || minPackage==undefined){
         minPackage=0;
+    }else{
+        minPackage=Number(minPackage);
     }
-    if(maxFees<=0){
+
+    if(Number(maxFees)<=0 
+        || maxFees==undefined){
         maxFees=Number.MAX_VALUE;
+    }else{
+        maxFees=Number(maxFees);
     }
-    console.log(connection);
+
+
+    console.log(connection,name,state,city,
+        minPackage,maxFees,exams,course);
 
     const records=await connection.find({
     name:{$regex:name,$options:"$i"},
